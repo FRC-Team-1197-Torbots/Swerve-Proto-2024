@@ -18,10 +18,16 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.LockRobot;
+import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeProto;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
@@ -36,9 +42,11 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final IntakeProto m_Intake = new IntakeProto();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  private CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -70,10 +78,13 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    //new JoystickButton(m_driverController, Button.kR1.value)
+        //.whileTrue(new RunCommand(
+           // () -> m_robotDrive.setX(),
+           // m_robotDrive));
+    m_driverController.a().whileTrue(new RunIntake(m_Intake));
+    m_driverController.leftBumper().onTrue(new LockRobot(m_robotDrive));
+    //m_driverController.leftBumper().onTrue(new ConditionalCommand(new InstantCommand(() -> m_robotDrive.setX(), ), getAutonomousCommand(), null))
   }
 
   /**
