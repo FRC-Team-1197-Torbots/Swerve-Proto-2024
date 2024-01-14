@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -81,11 +82,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics;
 
+  /*Field 2D on Robot Sim */
+  private Field2d m_field2d = new Field2d();
+
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     zeroHeading();
-
             // All other subsystem initialization
         // ...
 
@@ -117,30 +120,9 @@ public class DriveSubsystem extends SubsystemBase {
                 },
                 this // Reference to this subsystem to set requirements
         );
+        SmartDashboard.putData("Field", m_field2d);
   }
-  
 
-  @Override
-  public void periodic() {
-    //System.out.println(m_gyro.getYaw());
-    //System.out.println(m_gyro.getAngle());
-  
-    //SmartDashboard.getNumber("Yaw", m_gyro.getAngle());
-    //SmartDashboard.putString("Robot Angle", Rotation2d.fromDegrees(m_gyro.getYaw()).toString());
-    // Update the odometry in the periodic block
-    m_odometry.update(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        });
-
-    for(int i=0; i<modules.length; i++){
-      SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
-    }
-  }
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -337,5 +319,34 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getAngle() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  @Override
+  public void periodic() {
+    //System.out.println(m_gyro.getYaw());
+    //System.out.println(m_gyro.getAngle());
+  
+    //SmartDashboard.getNumber("Yaw", m_gyro.getAngle());
+    //SmartDashboard.putString("Robot Angle", Rotation2d.fromDegrees(m_gyro.getYaw()).toString());
+    // Update the odometry in the periodic block
+    m_odometry.update(
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        });
+
+    /*for(int i=0; i<modules.length; i++){
+      SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
+    }*/
+    m_field2d.setRobotPose(m_odometry.getPoseMeters());
+    
+  }
+
+  @Override
+  public void simulationPeriodic(){
+    
   }
 }

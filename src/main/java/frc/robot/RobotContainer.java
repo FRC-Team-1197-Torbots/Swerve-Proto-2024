@@ -20,6 +20,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LockRobot;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.ToggleTest;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeProto;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -82,8 +83,8 @@ public class RobotContainer {
         //.whileTrue(new RunCommand(
            // () -> m_robotDrive.setX(),
            // m_robotDrive));
-    m_driverController.a().whileTrue(new RunIntake(m_Intake));
-    m_driverController.leftBumper().onTrue(new LockRobot(m_robotDrive));
+    //m_driverController.a().whileTrue(new RunIntake(m_Intake));
+    //m_driverController.leftBumper().onTrue(new ToggleTest(m_Intake));
     //m_driverController.leftBumper().onTrue(new ConditionalCommand(new InstantCommand(() -> m_robotDrive.setX(), ), getAutonomousCommand(), null))
   }
 
