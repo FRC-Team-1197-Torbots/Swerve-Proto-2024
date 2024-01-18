@@ -1,14 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.IntakeProto;
 
-public class RunIntake extends Command{
+public class TurnRed extends Command{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final IntakeProto m_intake;
+    private final Blinkin m_blinkin;
 
-    public RunIntake(IntakeProto subsystem) {
-        m_intake = subsystem;
+    public TurnRed(Blinkin subsystem) {
+        m_blinkin = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
       }
@@ -22,13 +23,12 @@ public class RunIntake extends Command{
       // Called every time the scheduler runs while the command is scheduled.
       @Override
       public void execute() {
-        //System.out.println("Going up");
-        m_intake.runMotor();
+        m_blinkin.turnRed();
       }
 
       @Override
         public void end(boolean interrupted) {
-            m_intake.stopMotors();
+          m_blinkin.turnWhite();
         }
 
   // Returns true when the command should end.
@@ -36,7 +36,5 @@ public class RunIntake extends Command{
   public boolean isFinished() {
     return false;
   }
-
-  
     
 }

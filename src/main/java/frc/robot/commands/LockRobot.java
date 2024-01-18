@@ -15,23 +15,22 @@ public class LockRobot extends Command{
 
     @Override
     public void initialize() {
-      //System.out.println("running");
-      
+      m_DriveSubsystem.changeState();
     }
   
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-      m_DriveSubsystem.setX();
+      
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_DriveSubsystem.setZero();
+    
     }
     
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

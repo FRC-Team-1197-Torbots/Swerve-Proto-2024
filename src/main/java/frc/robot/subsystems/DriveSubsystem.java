@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -56,6 +57,10 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight
       };
 
+ /*  private enum isLocked {
+    LOCK, UNLOCK
+  }*/
+
   // The gyro sensor
   private final Pigeon2 m_gyro = new Pigeon2(1); //might have to change to pigeon
   
@@ -80,12 +85,16 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
   private SwerveDriveKinematics kinematics;
+  //private isLocked m_isLocked = isLocked.UNLOCK;
+  private boolean is_Locked = false;
+
+  /*Field 2D on Robot Sim */
+  private Field2d m_field2d = new Field2d();
 
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     zeroHeading();
-
             // All other subsystem initialization
         // ...
 
@@ -117,9 +126,10 @@ public class DriveSubsystem extends SubsystemBase {
                 },
                 this // Reference to this subsystem to set requirements
         );
+        SmartDashboard.putData("Field", m_field2d);
   }
-  
 
+<<<<<<< HEAD
   @Override
   public void periodic() {
     //System.out.println(m_gyro.getYaw());
@@ -140,7 +150,10 @@ public class DriveSubsystem extends SubsystemBase {
     for(int i=0; i<modules.length; i++){
       SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
     }
+
   }
+=======
+>>>>>>> 0f455d3389fe9b0b6566e2435e9921b5f8a68f09
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -280,10 +293,12 @@ public class DriveSubsystem extends SubsystemBase {
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
+    //changeState();
     m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    System.out.println("X set");
   }
 
   public void setZero(){
@@ -291,7 +306,34 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+  }
 
+  public void changeState(){
+    if(is_Locked == false){
+      //m_isLocked = isLocked.LOCK;
+      is_Locked = true;
+      System.out.println(is_Locked);
+    }
+    else{
+      //m_isLocked = isLocked.UNLOCK;
+      is_Locked = false;
+      System.out.println(is_Locked);
+    }
+
+    /*switch(m_isLocked){
+      case LOCK:
+        //System.out.println("Locked");
+        setX();
+        break;
+      case UNLOCK:
+        //System.out.println("unlocked");
+        setModuleStates(getModuleStates());
+        break;
+    }*/
+  }
+
+  public boolean checkLocked(){
+    return !is_Locked;
   }
 
   /**
@@ -337,5 +379,34 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getAngle() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  @Override
+  public void periodic() {
+    //System.out.println(m_gyro.getYaw());
+    //System.out.println(m_gyro.getAngle());
+  
+    //SmartDashboard.getNumber("Yaw", m_gyro.getAngle());
+    //SmartDashboard.putString("Robot Angle", Rotation2d.fromDegrees(m_gyro.getYaw()).toString());
+    // Update the odometry in the periodic block
+    m_odometry.update(
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        });
+
+    /*for(int i=0; i<modules.length; i++){
+      SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
+    }*/
+    m_field2d.setRobotPose(m_odometry.getPoseMeters());
+    
+  }
+
+  @Override
+  public void simulationPeriodic(){
+    
   }
 }

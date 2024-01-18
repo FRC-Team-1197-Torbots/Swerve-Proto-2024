@@ -20,6 +20,9 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LockRobot;
 import frc.robot.commands.RunIntake;
+import frc.robot.commands.TurnRed;
+import frc.robot.subsystems.Blinkin;
+import frc.robot.commands.ToggleTest;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeProto;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,6 +32,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import java.util.List;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -43,10 +48,13 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeProto m_Intake = new IntakeProto();
+  private final Blinkin m_Blinkin = new Blinkin();
 
   // The driver's controller
   //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   private CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+
+  private Trigger exTrigger = new Trigger(m_robotDrive::checkLocked);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -83,7 +91,12 @@ public class RobotContainer {
            // () -> m_robotDrive.setX(),
            // m_robotDrive));
     m_driverController.a().whileTrue(new RunIntake(m_Intake));
-    m_driverController.leftBumper().onTrue(new LockRobot(m_robotDrive));
+    m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_robotDrive.changeState()));//.andThen(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive).until(m_robotDrive::checkLocked)));//.)until(m_robotDrive::checkLocked));
+    exTrigger.whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    m_driverController.rightBumper().whileTrue(new TurnRed(m_Blinkin));
+    m_driverController.x().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    //m_driverController.a().whileTrue(new RunIntake(m_Intake));
+    //m_driverController.leftBumper().onTrue(new ToggleTest(m_Intake));
     //m_driverController.leftBumper().onTrue(new ConditionalCommand(new InstantCommand(() -> m_robotDrive.setX(), ), getAutonomousCommand(), null))
   }
 
