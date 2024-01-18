@@ -129,7 +129,6 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putData("Field", m_field2d);
   }
 
-<<<<<<< HEAD
   @Override
   public void periodic() {
     //System.out.println(m_gyro.getYaw());
@@ -152,8 +151,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
   }
-=======
->>>>>>> 0f455d3389fe9b0b6566e2435e9921b5f8a68f09
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -380,33 +377,5 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return m_gyro.getAngle() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
-
-  @Override
-  public void periodic() {
-    //System.out.println(m_gyro.getYaw());
-    //System.out.println(m_gyro.getAngle());
   
-    //SmartDashboard.getNumber("Yaw", m_gyro.getAngle());
-    //SmartDashboard.putString("Robot Angle", Rotation2d.fromDegrees(m_gyro.getYaw()).toString());
-    // Update the odometry in the periodic block
-    m_odometry.update(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        });
-
-    /*for(int i=0; i<modules.length; i++){
-      SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
-    }*/
-    m_field2d.setRobotPose(m_odometry.getPoseMeters());
-    
-  }
-
-  @Override
-  public void simulationPeriodic(){
-    
-  }
 }
