@@ -25,12 +25,14 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.TurnRed;
 import frc.utils.SwerveUtils;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
-  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+  public final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
       DriveConstants.kFrontLeftTurningCanId,
       DriveConstants.kFrontLeftChassisAngularOffset);
@@ -126,7 +128,6 @@ public class DriveSubsystem extends SubsystemBase {
                 },
                 this // Reference to this subsystem to set requirements
         );
-        SmartDashboard.putData("Field", m_field2d);
   }
 
   @Override
@@ -149,7 +150,18 @@ public class DriveSubsystem extends SubsystemBase {
     for(int i=0; i<modules.length; i++){
       SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
     }
+    double[] botpose = LimelightHelpers.getBotPose_wpiBlue("limelight");
+    SmartDashboard.putNumber("BotPose X", botpose[0]);
+    SmartDashboard.putNumber("BotPose Y", botpose[1]);
 
+    double odometry_x = m_odometry.getPoseMeters().getX();
+    double odometry_y = m_odometry.getPoseMeters().getY();
+    SmartDashboard.putNumber("Odometry X", odometry_x);
+    SmartDashboard.putNumber("Odometry Y", odometry_y);
+    
+    SmartDashboard.putData("Field", m_field2d);
+    m_field2d.setRobotPose(m_odometry.getPoseMeters());
+    
   }
 
   /**

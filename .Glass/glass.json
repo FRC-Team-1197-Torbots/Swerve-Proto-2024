@@ -1,0 +1,54 @@
+{
+  "NetworkTables": {
+    "transitory": {
+      "CameraPublisher": {
+        "limelight": {
+          "open": true
+        }
+      },
+      "SmartDashboard": {
+        "Field": {
+          "open": true
+        }
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Scheduler": "Scheduler"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "Robot": {
+          "image": "C:\\Users\\1035696\\Downloads\\robot_display.png",
+          "length": 1.0,
+          "style": "Box/Image",
+          "width": 1.0
+        },
+        "bottom": 544,
+        "builtin": "2024 Crescendo",
+        "height": 8.013679504394531,
+        "left": 46,
+        "right": 1088,
+        "top": 36,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "open": true
+    },
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT3)",
+    "serverTeam": "1197"
+  }
+}
