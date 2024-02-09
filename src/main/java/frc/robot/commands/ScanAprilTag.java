@@ -30,6 +30,7 @@ public class ScanAprilTag extends Command{
         double[] botpose = LimelightHelpers.getBotPose_wpiBlue("limelight");
 
         m_robotDrive.resetOdometry(new Pose2d(botpose[0], botpose[1], new Rotation2d(Math.toRadians(botpose[5]))));
+        
         //eventually, make this command triggered when picking up note AND when AprilTag(s) is visible 
       }
     
