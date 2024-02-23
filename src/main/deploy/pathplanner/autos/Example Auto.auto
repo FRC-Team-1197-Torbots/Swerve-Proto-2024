@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 5.828866254888908,
-      "y": 4.464534426699184
+      "x": 2.0,
+      "y": 7.0
     },
     "rotation": 0
   },
@@ -14,7 +14,32 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New New Path"
+            "pathName": "Sample Path"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Print Command"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Example Path"
           }
         }
       ]

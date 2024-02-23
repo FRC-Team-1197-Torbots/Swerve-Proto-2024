@@ -2,15 +2,43 @@
   "version": 1.0,
   "startingPose": {
     "position": {
+<<<<<<< Updated upstream
       "x": 2,
       "y": 2
+=======
+      "x": 2.0,
+      "y": 5.326791389051343
+>>>>>>> Stashed changes
     },
     "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
+<<<<<<< Updated upstream
       "commands": []
+=======
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Sample Path"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Sample Path"
+          }
+        }
+      ]
+>>>>>>> Stashed changes
     }
   },
   "folder": null,

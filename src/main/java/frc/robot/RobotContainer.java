@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -71,6 +72,8 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ScanAprilTag", new ScanAprilTag());
     
     configureButtonBindings();
+
+    NamedCommands.registerCommand("Justin's Command", new PrintCommand("This should run!!"));
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(

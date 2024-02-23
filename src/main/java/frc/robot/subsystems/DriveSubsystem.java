@@ -150,9 +150,14 @@ public class DriveSubsystem extends SubsystemBase {
     for(int i=0; i<modules.length; i++){
       SmartDashboard.putNumber("Module " + (i+1) + " Velocity", modules[i].getEncodeVelo());
     }
+<<<<<<< Updated upstream
     double[] botpose = LimelightHelpers.getBotPose_wpiBlue("limelight");
     SmartDashboard.putNumber("BotPose X", botpose[0]);
     SmartDashboard.putNumber("BotPose Y", botpose[1]);
+=======
+    SmartDashboard.putNumber("Angular Turn Rate", Math.abs(m_gyro.getRate()));
+    SmartDashboard.putNumber("Angular Turn Rate", Math.abs(m_gyro.getRate()));
+>>>>>>> Stashed changes
 
     double odometry_x = m_odometry.getPoseMeters().getX();
     double odometry_y = m_odometry.getPoseMeters().getY();
